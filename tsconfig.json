@@ -1,6 +1,7 @@
 {
+  "compileOnSave": true,
   "compilerOptions": {
-    "target": "es5",
+    "target": "es6",
     "lib": [
       "dom",
       "dom.iterable",
@@ -18,9 +19,34 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "outDir": "./dist/",
+    "baseUrl": "./src",
+    "rootDir": ".",
+    "paths": {
+      "pages/*": [
+        "pages/*"
+      ],
+      "components/*": [
+        "components/*"
+      ],
+      "routes/*": [
+        "routes/*"
+      ],
+      "hooks/*": [
+        "hooks/*"
+      ],
+      "state/*": [
+        "state/*"
+      ]
+    }
   },
   "include": [
-    "src"
+    "src",
+  ],
+  "exclude": [
+    "node_modules",
+    "build",
+    "dist"
   ]
 }

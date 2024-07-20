@@ -2,3 +2,40 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+* {
+    font-family: "Sora", sans-serif !important;
+    font-weight: 500;
+}
+
+body {
+    background-color: #ffffff !important;
+}
+
+::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+    border: 1px solid #d5d5d5;
+}
+
+
+
+ ::-webkit-scrollbar-track {
+    background: #fff;
+    border-radius: 2px;
+    height: 100px;
+}
+
+
+
+ ::-webkit-scrollbar-thumb {
+    background: #898989;
+    border-radius: 25px;
+    width: 1px;
+}
+
+
+
+ ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
