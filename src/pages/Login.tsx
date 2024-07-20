@@ -5,7 +5,8 @@ import { LoginData, ProfileData, SnackbarInterface } from "../utils/interface";
 import { Alert, Card, CardContent, CircularProgress, Snackbar, TextField } from "@mui/material";
 import { Link } from "react-router-dom";
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
+import { ApiConstants } from "../utils/api-constants";
 export default function Login() {
     const authContext = useAuth();
     const [formData, setFormData] = useState<LoginData>({
@@ -38,16 +39,15 @@ export default function Login() {
     const login = useGoogleLogin({
         onSuccess: (codeResponse) => {
             axios
-                .get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${codeResponse.access_token}`, {
+                .get(ApiConstants.googleAccessToken(codeResponse.access_token as string), {
                     headers: {
                         Authorization: `Bearer ${codeResponse.access_token}`,
                         Accept: 'application/json'
                     }
                 })
-                .then((res) => {
-                    // setProfile(res.data);
+                .then((res: AxiosResponse) => {
                     setProfileData(res.data)
-                    window.location.href = "/home"
+                    window.location.href = "/boards"
                     console.log(res.data)
                 })
                 .catch((err) => console.log(err));
@@ -66,35 +66,37 @@ export default function Login() {
         })
     };
     function handleSubmit(e: FormEvent<HTMLFormElement>): void {
+
         // throw new Error("Function not implemented.");
         // login data
     }
 
     return <>
-        <section className="min-h-[70svh] container">
-            <div className="px-4 lg:px-96 h-[70svh] flex flex-col justify-center " >
-                <Card className="!rounded-xl !shadow-lg border border-blue-900">
+        <section className="min-h-[70svh] container overflow-hidden">
+            <div className="px-3 lg:px-64 h-[73svh] flex flex-col justify-center items-center  overflow-hidden" >
+                <h1 className="text-3xl text-start text-blue-800 mb-3">Login</h1>
+                <Card className="!rounded-xl !shadow-lg border border-blue-900 md:mx-3">
                     <CardContent>
-                        <div className="px-3 md:px-10 lg:px-12 py-10">
-                            <h1 className="text-3xl text-center mb-5">Login</h1>
+                        <div className="px-4  md:px-10 lg:px-12 py-8">
+
                             <form onSubmit={(e) => handleSubmit(e)}>
-                                <div className="mb-5">
+                                <div className="mb-3">
                                     <TextField value={formData.email} onChange={handleChange}
                                         name="email"
-                                        className="w-full" label="Email" placeholder="Enter Email here"
+                                        className="w-96" label="Email" placeholder="Enter Email here"
                                         type="email"></TextField>
                                 </div>
-                                <div className="mb-5">
+                                <div className="mb-3">
                                     <TextField value={formData.password} onChange={handleChange}
                                         name="password"
-                                        className="w-full" label="Password" placeholder="Enter Password here"
+                                        className="w-96" label="Password" placeholder="Enter Password here"
                                         type="password"></TextField>
                                 </div>
                                 <div className="mb-3">
                                     <button
                                         disabled={loading}
                                         type="submit"
-                                        className="w-full flex justify-center gap-3 items-center px-6 py-4 bg-blue-800 rounded text-white hover:shadow-lg transition">
+                                        className="w-96 flex justify-center gap-3 items-center px-6 py-4 bg-blue-800 rounded text-white hover:shadow-lg transition">
                                         Login {loading ? <CircularProgress size={16} color="inherit" /> : null}
                                     </button>
                                 </div>
