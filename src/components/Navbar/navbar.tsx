@@ -20,7 +20,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/AuthProvider";
 import { Profile } from "../../utils/interface";
-
+import Logo from "../../assets/task.png"
 const drawerWidth = 240;
 
 export default memo(function Navbar() {
@@ -47,7 +47,7 @@ export default memo(function Navbar() {
     const drawer = (
         <Box onClick={handleDrawerToggle} className="flex justify-center items-center flex-col py-4">
             <Link to={'/'}>
-                <img className="max-w-[170px] " src="Logo" alt="Logo" />
+                <img className="max-w-[30px]" src={Logo} alt="Logo" />
             </Link>
             <Divider className="w-full" />
             <List className="w-full">
@@ -80,12 +80,12 @@ export default memo(function Navbar() {
         <Box sx={{ display: 'flex' }}>
             <AppBar variant="elevation" elevation={!trigger ? 0 : 10}
                 color={'transparent'}>
-                <Toolbar className="!text-[#222] justify-between w-svw bg-white border-0 py-3 px-2 md:py-5 md:px-4">
+                <Toolbar className="!text-[#222] justify-between w-svw bg-blue-500 border-0 py-2 px-2 md:py-5 md:px-4">
                     <div className="flex gap-2 items-center">
                         <Link to={'/'}>
-                            <img className="max-w-[170px]" src="" alt="Logo" />
+                            <img className="max-w-[30px]" src={Logo} alt="Logo" />
                         </Link>
-                        
+
                     </div>
 
                     <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
@@ -119,9 +119,9 @@ export default memo(function Navbar() {
                             <>
                                 <div className="flex gap-4">
                                     <Link to="/login"><Button
-                                        className="!normal-case "
+                                        className="!normal-case  !text-white !border-white"
                                         variant={'outlined'}>Login</Button></Link>
-                                    <Link to="/register"><Button className="!normal-case "
+                                    <Link to="/register"><Button className="!normal-case !bg-white !text-blue-600"
                                         variant={'contained'}>Sign Up</Button></Link>
                                 </div>
                             </>}
