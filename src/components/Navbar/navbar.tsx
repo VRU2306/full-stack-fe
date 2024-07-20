@@ -55,7 +55,7 @@ export default memo(function Navbar() {
                     <ListItem className={'w-full'} disablePadding>
                         <ListItemButton onClick={() => userAuth.logOut()} className={'w-full'}
                             sx={{ textAlign: 'center' }}>
-                            <ListItemText className="normal-case text-primary-500">Logout</ListItemText>
+                            <ListItemText className="normal-case text-blue-500">Logout</ListItemText>
                         </ListItemButton>
                     </ListItem>
                 </> : <>
@@ -80,7 +80,7 @@ export default memo(function Navbar() {
         <Box sx={{ display: 'flex' }}>
             <AppBar variant="elevation" elevation={!trigger ? 0 : 10}
                 color={'transparent'}>
-                <Toolbar className="!text-[#222] justify-between w-svw bg-blue-500 border-0 py-2 px-2 md:py-5 md:px-4">
+                <Toolbar className="!text-[#222] justify-between w-svw bg-blue-800 border-0 py-2 px-2 md:py-5 md:px-4">
                     <div className="flex gap-2 items-center">
                         <Link to={'/'}>
                             <img className="max-w-[30px]" src={Logo} alt="Logo" />
