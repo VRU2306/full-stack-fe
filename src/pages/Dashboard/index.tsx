@@ -38,6 +38,7 @@ function Dashboard() {
 
             })
         }
+        // eslint-disable-next-line
     }, []);
 
     const handleAddTask = async () => {
@@ -121,7 +122,3 @@ function Dashboard() {
     </>
 }
 export default Dashboard;
-
-function setAddModalOpen(arg0: boolean) {
-    throw new Error("Function not implemented.");
-}

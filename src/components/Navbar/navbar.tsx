@@ -10,7 +10,6 @@ import {
     ListItem,
     ListItemButton,
     ListItemText,
-    Menu,
     Toolbar,
     useScrollTrigger
 } from "@mui/material";
@@ -34,6 +33,7 @@ export default memo(function Navbar() {
         if (userData) {
             setProfile(userData);
         }
+    // eslint-disable-next-line
     }, []);
 
     const trigger = useScrollTrigger({

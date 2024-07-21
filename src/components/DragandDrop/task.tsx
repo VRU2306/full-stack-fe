@@ -1,4 +1,4 @@
-import { Draggable, Droppable } from 'react-beautiful-dnd';
+import {  Droppable } from 'react-beautiful-dnd';
 import { Tasks } from 'utils/interface';
 import TaskItem from './taskDraggable';
 

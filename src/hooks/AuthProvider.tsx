@@ -13,8 +13,9 @@ const AuthProvider = ({ children }: { children: any }) => {
     const [user, setUser] = useState<Profile>();
     const navigate = useNavigate();
 
-
+    // eslint-disable-next-line
     const logOut = () => {
+
         const user = getUserInfo()
         if (user?.googleSignedInUser === true) {
             googleLogout()
@@ -25,7 +26,7 @@ const AuthProvider = ({ children }: { children: any }) => {
         localStorage.removeItem("profileData");
         navigate("/login");
     };
-
+    // eslint-disable-next-line
     const getUserInfo = () => {
         let userData = localStorage.getItem("profileData");
         if (userData) {
@@ -37,8 +38,8 @@ const AuthProvider = ({ children }: { children: any }) => {
     }
 
     const contextValue = useMemo(() => ({
-        token, user, isLoggedIn, setToken, setIsLoggedIn,getUserInfo, setUser, logOut
-    }), [token, user, isLoggedIn, setToken, setUser,getUserInfo, setIsLoggedIn, logOut]);
+        token, user, isLoggedIn, setToken, setIsLoggedIn, getUserInfo, setUser, logOut
+    }), [token, user, isLoggedIn, setToken, setUser, getUserInfo, setIsLoggedIn, logOut]);
 
     return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
 };

@@ -39,11 +39,11 @@ function TaskItem({ task, index, onDelete, onUpdate }: TaskItemProps) {
                         ref={provided.innerRef}
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
-                        className="p-4 m-2 bg-white border border-gray-300 rounded-lg shadow-sm"
+                        className="p-4 m-2 bg-blue-100 border border-gray-300 rounded-lg shadow-sm"
                         style={{ ...provided.draggableProps.style, ...provided.draggableProps.style }}
                     >
                         <div className="flex items-center justify-between">
-                            <h4 className="text-lg font-semibold cursor-pointer" onClick={toggleViewModal}>
+                            <h4 className="text-lg font-semibold cursor-pointer" >
                                 {task.title}
                             </h4>
                             <Avatar className="ml-2 uppercase !bg-gray-700">{getInitials(task.name)}</Avatar>
@@ -52,8 +52,10 @@ function TaskItem({ task, index, onDelete, onUpdate }: TaskItemProps) {
                         <p className="text-sm text-gray-500">Added: {format(new Date(task.created), 'dd/MM/yyyy')}</p>
                         <p className="text-sm text-gray-500">Due: {format(new Date(task.taskDueDate), 'dd/MM/yyyy')}</p>
                         <div className='flex justify-end'>
-                            <button onClick={toggleEditModal} className="mr-2 text-blue-500">Update</button>
-                            <button onClick={() => onDelete(task._id)} className="text-red-500">Delete</button>
+                            <button onClick={() => onDelete(task._id)} className="mr-2 text-white bg-red-500 rounded-xl p-1">Delete</button>
+                            <button onClick={toggleEditModal} className="me-2 text-white bg-blue-400  rounded-xl p-1">Edit</button>
+                            <button onClick={toggleViewModal} className='me-3 text-white bg-blue-500 rounded-xl p-1'>View Details</button>
+
                         </div>
                     </div>
                 )}

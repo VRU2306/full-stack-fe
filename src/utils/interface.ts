@@ -43,6 +43,14 @@ export interface LoginData {
     email: string,
     password: string
 }
+
+export interface RegisterData {
+    email: string,
+    password: string,
+    confirmPassword?: string,
+    firstName: string,
+    lastName: string
+}
 export interface ProfileData {
     email: string,
     name: string,

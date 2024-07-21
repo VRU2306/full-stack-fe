@@ -1,10 +1,10 @@
 import { useAuth } from "../hooks/AuthProvider";
 import { FormEvent, useEffect, useState } from "react";
 import { SnackBarSeverityLevel } from "../utils/enum";
-import { LoginData, ProfileData, SnackbarInterface } from "../utils/interface";
+import { LoginData, SnackbarInterface } from "../utils/interface";
 import { Alert, Card, CardContent, CircularProgress, Snackbar, TextField } from "@mui/material";
 import { Link } from "react-router-dom";
-import { googleLogout, useGoogleLogin } from '@react-oauth/google';
+import { useGoogleLogin } from '@react-oauth/google';
 import axios, { AxiosResponse } from "axios";
 import { ApiConstants } from "../utils/api-constants";
 import axiosHttp from "utils/axios-index";
@@ -29,6 +29,7 @@ export default function Login() {
     }
     useEffect(() => {
         authContext.logOut();
+        // eslint-disable-next-line
     }, []);
 
     const login = useGoogleLogin({
@@ -121,7 +122,7 @@ export default function Login() {
     }
 
     return <>
-        <section className="min-h-[70svh] container overflow-hidden">
+        <section className="min-h-[70svh] container overflow-hidden -mt-4">
             <div className="px-3 lg:px-64 h-[73svh] flex flex-col justify-center items-center  overflow-hidden" >
                 <h1 className="text-3xl text-start text-blue-800 mb-3">Login</h1>
                 <Card className="!rounded-xl !shadow-lg border border-blue-900 md:mx-3">
