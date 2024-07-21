@@ -1,5 +1,5 @@
 export const ApiConstants = {
-    baseApiUrl: "http://localhost:4500/",
+    baseApiUrl: "https://full-stack-be-mvcs.onrender.com/",
     accounts: {
         register: "api/auth/register/",
         login: "api/auth/login/",
