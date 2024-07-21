@@ -45,8 +45,6 @@ function TaskList({ allTask, userData }: { allTask: TasksData, userData: Profile
         }
 
         const { source, destination } = result;
-
-        // Handle task movement within the same column
         if (source.droppableId === destination.droppableId) {
             const updatedTasks = Array.from(tasks);
             const [movedTask] = updatedTasks.splice(source.index, 1);
