@@ -2,6 +2,7 @@ import { createContext, useContext, useMemo, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 import { Profile } from "../utils/interface";
+import { googleLogout } from "@react-oauth/google";
 const AuthContext = createContext({
     token: "",
     user: {}
@@ -11,11 +12,13 @@ const AuthProvider = ({ children }: { children: any }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("accessToken") !== null ? true : false)
     const [user, setUser] = useState<Profile>();
     const navigate = useNavigate();
-    // const loginAction = (formData: LoginRequest) => {
-    //     return axiosHttp.post(ApiConstants.accounts.login, formData);
-    // };
+
 
     const logOut = () => {
+        const user = getUserInfo()
+        if (user?.googleSignedInUser === true) {
+            googleLogout()
+        }
         setToken("");
         setUser({} as Profile);
         localStorage.removeItem("accessToken");
@@ -23,28 +26,19 @@ const AuthProvider = ({ children }: { children: any }) => {
         navigate("/login");
     };
 
-    // const getUserInfo = () => {
-    //     let userData = localStorage.getItem("profileData");
-    //     if (userData) {
-    //         setUser(JSON.parse(userData));
-    //         return JSON.parse(userData);
-    //     }
-    //     else
-    //         return user as ProfileDataInterface;
-    // }
-
-    // const updateUserInfo = (data: ProfileDataInterface) => {
-    //     let userData = getUserInfo();
-    //     if (userData)
-    //         data = Object.assign(userData, data);
-    //     setUser(data);
-    //     return user;
-    // }
-
+    const getUserInfo = () => {
+        let userData = localStorage.getItem("profileData");
+        if (userData) {
+            setUser(JSON.parse(userData));
+            return JSON.parse(userData);
+        }
+        else
+            return user as Profile;
+    }
 
     const contextValue = useMemo(() => ({
-        token, user, isLoggedIn, setToken, setIsLoggedIn, setUser, logOut
-    }), [token, user, isLoggedIn, setToken, setUser, setIsLoggedIn, logOut]);
+        token, user, isLoggedIn, setToken, setIsLoggedIn,getUserInfo, setUser, logOut
+    }), [token, user, isLoggedIn, setToken, setUser,getUserInfo, setIsLoggedIn, logOut]);
 
     return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
 };

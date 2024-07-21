@@ -10,9 +10,9 @@ axiosHttp.interceptors.request.use(
         if (config.url.includes("api/auth/login") || config.url.includes("api/auth/register") || config.url.includes("api/auth/google-register/")) {
             return config;
         }
-        let token = localStorage.getItem("token");
+        let token = localStorage.getItem("accessToken");
         if (token) {
-            config.headers["Authorization"] = token;
+            config.headers["Authorization"] = `Bearer ${token}`;
         }
 
         return config;
@@ -27,9 +27,9 @@ axiosHttp.interceptors.response.use(
         return response;
     },
     (error) => {
-        if (error.response.status === 401 || error.response.status === 403) {
-            window.location.href = "/";
-        }
+        // if (error.response.status === 401 || error.response.status === 403) {
+        //     window.location.href = "/";
+        // }
         return Promise.reject(error);
     }
 );

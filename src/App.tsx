@@ -9,7 +9,7 @@ function App() {
   const routeResult = useRoutes(routes);
   return (
     <>
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col overflow-auto">
         {/* <ReactReduxProvider store={store}> */}
             <AuthProvider>
                 <Navbar />

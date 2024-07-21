@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 import axios, { AxiosResponse } from "axios";
 import { ApiConstants } from "../utils/api-constants";
+import axiosHttp from "utils/axios-index";
 export default function Login() {
     const authContext = useAuth();
     const [formData, setFormData] = useState<LoginData>({
@@ -14,12 +15,6 @@ export default function Login() {
         password: ""
     })
 
-    const [profileData, setProfileData] = useState<ProfileData>({
-        email: "",
-        name: "",
-        picture: "",
-        googleSignIn: true
-    })
     const [loading, setLoading] = useState(false);
     const [snackbar, setSnackbar] = useState<SnackbarInterface>({
         message: "",
@@ -46,9 +41,34 @@ export default function Login() {
                     }
                 })
                 .then((res: AxiosResponse) => {
-                    setProfileData(res.data)
-                    window.location.href = "/boards"
-                    console.log(res.data)
+                    let obj = {
+                        email: res.data.email,
+                        name: res.data.name
+                    }
+                    axiosHttp.post(ApiConstants.accounts.googleSignIn, obj).then((res: AxiosResponse) => {
+                        setSnackbar({
+                            ...snackbar,
+                            open: true,
+                            message: "Logged in successfully!",
+                            severity: SnackBarSeverityLevel.SUCCESS,
+                        });
+                        authContext.setToken(res.data.token);
+                        localStorage.setItem("accessToken", res.data.token);
+                        delete res.data.token;
+                        authContext.setUser(res.data);
+                        localStorage.setItem("profileData", JSON.stringify(res.data));
+                        window.location.href = "/boards"
+                    })
+                        .catch((err: AxiosResponse) => {
+                            setSnackbar({
+                                ...snackbar,
+                                open: true,
+                                message: "Authentication credentials invalid. Please try again.",
+                                severity: SnackBarSeverityLevel.WARNING,
+                            });
+                            setLoading(prevState => !prevState);
+                        })
+
                 })
                 .catch((err) => console.log(err));
         },
@@ -66,9 +86,38 @@ export default function Login() {
         })
     };
     function handleSubmit(e: FormEvent<HTMLFormElement>): void {
+        e.preventDefault();
+        setLoading(prevState => !prevState);
+        try {
+            axiosHttp.post(ApiConstants.accounts.login, formData)
+                .then((res: AxiosResponse) => {
+                    setSnackbar({
+                        ...snackbar,
+                        open: true,
+                        message: "Logged in successfully!",
+                        severity: SnackBarSeverityLevel.SUCCESS,
+                    });
+                    authContext.setToken(res.data.token);
+                    localStorage.setItem("accessToken", res.data.token);
+                    delete res.data.token;
+                    authContext.setUser(res.data);
+                    localStorage.setItem("profileData", JSON.stringify(res.data));
+                    window.location.href = "/boards"
+                })
+                .catch((err: AxiosResponse) => {
+                    setSnackbar({
+                        ...snackbar,
+                        open: true,
+                        message: "Authentication credentials invalid. Please try again.",
+                        severity: SnackBarSeverityLevel.WARNING,
+                    });
+                    setLoading(prevState => !prevState);
+                })
+        }
+        catch (err) {
+            console.log(err, 76)
+        }
 
-        // throw new Error("Function not implemented.");
-        // login data
     }
 
     return <>

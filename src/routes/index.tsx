@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 import Loading from "../pages/Loading";
 import { RouteObject } from "react-router-dom";
+import AuthorizedRoute from "./AuthorizedRoute";
 
 const Loadable = (Component: any) => (props: JSX.IntrinsicAttributes) =>
 (
@@ -10,6 +11,7 @@ const Loadable = (Component: any) => (props: JSX.IntrinsicAttributes) =>
 );
 const Login = Loadable(lazy(() => import('../pages/Login')));
 const Register = Loadable(lazy(() => import('../pages/Register')));
+const Dashboard = Loadable(lazy(() => import('../pages/Dashboard/index')));
 const routes: RouteObject[] = [
     {
         path: '/',
@@ -25,6 +27,17 @@ const routes: RouteObject[] = [
         path: '/register',
         index: true,
         element: <Register />
+    },
+
+    {
+        path: "boards",
+        element: <AuthorizedRoute />,
+        children: [
+            {
+                path: "",
+                element: <Dashboard />
+            }
+        ]
     },
 ]
 export default routes;

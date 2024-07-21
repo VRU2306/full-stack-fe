@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import {
     AppBar,
     Box,
@@ -9,40 +9,37 @@ import {
     List,
     ListItem,
     ListItemButton,
-    ListItemIcon,
     ListItemText,
     Menu,
-    MenuItem,
     Toolbar,
     useScrollTrigger
 } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/AuthProvider";
-import { Profile } from "../../utils/interface";
 import Logo from "../../assets/task.png"
+import { Profile } from "utils/interface";
 const drawerWidth = 240;
 
 export default memo(function Navbar() {
     const userAuth = useAuth();
+    const [profile, setProfile] = useState<Profile>(userAuth.user);
     const [mobileOpen, setMobileOpen] = useState(false);
-    const [profile, setProfile] = useState<Profile>();
-    const navigate = useNavigate();
     const handleDrawerToggle = () => {
         setMobileOpen((isOpen) => !isOpen);
     };
+
+    useEffect(() => {
+        let userData = userAuth.getUserInfo();
+        if (userData) {
+            setProfile(userData);
+        }
+    }, []);
+
     const trigger = useScrollTrigger({
         target: window ? window : undefined,
     });
 
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
 
     const drawer = (
         <Box onClick={handleDrawerToggle} className="flex justify-center items-center flex-col py-4">
@@ -52,9 +49,11 @@ export default memo(function Navbar() {
             <Divider className="w-full" />
             <List className="w-full">
                 {userAuth.token ? <>
+                    <p className="text-blue-500 items-center mt-2 flex justify-center w-50">Hi, {profile?.name} 👋</p>
                     <ListItem className={'w-full'} disablePadding>
                         <ListItemButton onClick={() => userAuth.logOut()} className={'w-full'}
                             sx={{ textAlign: 'center' }}>
+                           
                             <ListItemText className="normal-case text-blue-500">Logout</ListItemText>
                         </ListItemButton>
                     </ListItem>
@@ -94,28 +93,14 @@ export default memo(function Navbar() {
                     </Box>
                     <Box sx={{ display: { xs: 'none', md: 'inline-flex' } }}>
                         {userAuth.token ? <>
-                            <Button
-                                id="basic-button"
-                                aria-controls={open ? 'basic-menu' : undefined}
-                                aria-haspopup="true"
-                                aria-expanded={open ? 'true' : undefined}
-                                onClick={handleClick}
-                                className="!normal-case !text-gray-500"
-                            >
-                                <div className="flex items-center gap-3 me-4">
-                                </div>
-                            </Button>
-                            <Menu
-                                id="basic-menu"
-                                anchorEl={anchorEl}
-                                open={open}
-                                onClose={handleClose}
-                                MenuListProps={{
-                                    'aria-labelledby': 'basic-button',
-                                }}
-                            >
-                            </Menu>
+                            <div className="flex gap-4">
+                                <p className="text-white items-center mt-2">Hi, {profile?.name} 👋</p>
+                                <Button className="!normal-case !bg-red-500 !text-white" onClick={() => userAuth.logOut()}
+                                    variant={'contained'}>Logout</Button>
+                            </div>
+
                         </> :
+
                             <>
                                 <div className="flex gap-4">
                                     <Link to="/login"><Button
@@ -126,10 +111,11 @@ export default memo(function Navbar() {
                                 </div>
                             </>}
 
+
                     </Box>
 
                     <IconButton
-                        className="px-3 rounded-full py-1"
+                        className="px-3 rounded-full py-1 !text-white"
                         aria-label="open drawer"
                         edge="start"
                         onClick={handleDrawerToggle}
